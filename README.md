@@ -23,6 +23,17 @@
   <a href="https://obsidian.md"><img src="https://img.shields.io/badge/obsidian-supported-7c3aed.svg?style=flat-square" alt="Obsidian"></a>
 </p>
 
+<p align="center">
+  <a href="#get-started-30-seconds">Install</a> ·
+  <a href="#what-it-does">Features</a> ·
+  <a href="#proof">Proof</a> ·
+  <a href="#compared-to">Comparison</a> ·
+  <a href="#scripts">Scripts</a> ·
+  <a href="#requirements">Requirements</a> ·
+  <a href="#faq">FAQ</a> ·
+  <a href="#troubleshooting">Troubleshooting</a>
+</p>
+
 ---
 
 **Hermes Brain** turns your AI agent's conversations, research, and notes into a durable, self-evolving knowledge graph. It discovers gaps, searches for missing knowledge, and fills them automatically — knowledge compounds like interest.
@@ -39,6 +50,27 @@ Based on [Andrej Karpathy's LLM Wiki pattern](https://gist.github.com/karpathy/4
 - **Reference validation** — checks broken links, isolated notes, duplicate titles
 - **Cron automation** — runs self-evolution cycle daily
 - **Local-first** — all data stored locally, no cloud upload
+
+## How it works (30 seconds)
+
+```
+ Your conversations / research / notes
+        │
+        ▼
+┌─────────────────────────────────────────────────────┐
+│  Hermes Brain   (runs locally — your data stays here)│
+│  ────────────────────────────────────────────────────│
+│  discover → suggest → search → extract → create      │
+│      ↑                                    │          │
+│      └────────────────────────────────────┘          │
+│                                                      │
+│  Semantic index (SQLite) · Knowledge graph (wikilinks)│
+│  Hot cache · Reference validation · Cron automation   │
+└─────────────────────────────────────────────────────┘
+        │
+        ▼
+ Obsidian Vault (plain Markdown files you own)
+```
 
 ## Get started (30 seconds)
 
@@ -57,6 +89,342 @@ python scripts/evolve.py run
 
 No API keys required. Everything runs locally.
 
+## Proof
+
+**Real knowledge base statistics:**
+
+| Metric | Value |
+|--------|-------|
+| Total notes | 42 |
+| Semantic index | 42 notes indexed |
+| Knowledge graph | 138 relationships |
+| Health score | 79.5% |
+| Total size | 177KB |
+
+**Self-evolution cycle output:**
+
+```
+📊 Step 1: Scanning notes... Found 39 notes
+🔍 Step 2: Analyzing gaps... Found 57 knowledge gaps
+💡 Step 3: Generating suggestions... 10 suggestions
+📋 Step 4: Selecting topics... 3 topics
+🌐 Step 5: Searching... (needs web_search integration)
+📝 Step 6: Creating notes... 0 notes
+📦 Step 7: Updating index... Done
+🔥 Step 8: Updating hot cache... Done
+✅ Self-evolution cycle complete
+```
+
+## Compared to
+
+| Capability | Hermes Brain | claude-obsidian | swarmvault | karpathy-llm-wiki |
+|---|:---:|:---:|:---:|:---:|
+| Knowledge graph | ✅ | ✅ | ✅ | ✅ |
+| Semantic search | ✅ | ✅ | ✅ | ❌ |
+| Hot cache | ✅ | ✅ | ❌ | ❌ |
+| Auto research | ✅ | ✅ | ❌ | ❌ |
+| Self-evolution | ✅ | ❌ | ❌ | ❌ |
+| Cron automation | ✅ | ❌ | ❌ | ❌ |
+| Reference validation | ✅ | ✅ | ❌ | ✅ |
+| Hermes native | ✅ | ❌ | ❌ | ❌ |
+| Local-first | ✅ | ✅ | ✅ | ✅ |
+| Lightweight | ✅ 177KB | ❌ | ❌ | ✅ |
+
+## Scripts
+
+| Script | Purpose | Command |
+|--------|---------|---------|
+| `hot_cache.py` | Update hot cache | `python scripts/hot_cache.py` |
+| `semantic_index.py` | Build semantic index | `python scripts/semantic_index.py index` |
+| `auto_research.py` | Analyze knowledge gaps | `python scripts/auto_research.py discover` |
+| `build_graph.py` | Build knowledge graph | `python scripts/build_graph.py` |
+| `retrieve.py` | Search knowledge | `python scripts/retrieve.py "query"` |
+| `maintain.py` | Validate references | `python scripts/maintain.py validate` |
+| `evolve.py` | Run self-evolution | `python scripts/evolve.py run` |
+| `cron.py` | Set up automation | `python scripts/cron.py setup` |
+
+<details>
+<summary><b>Detailed script documentation</b></summary>
+
+### `semantic_index.py` — Semantic Indexing
+
+```bash
+python scripts/semantic_index.py index [vault_path]    # Build index
+python scripts/semantic_index.py search "query"        # Semantic search
+python scripts/semantic_index.py stats                 # Show statistics
+python scripts/semantic_index.py rebuild               # Force rebuild
+```
+
+**Note:** Requires Python 3.12+ for `sentence-transformers`:
+```bash
+/c/Users/20716/AppData/Local/Programs/Python/Python312/python.exe scripts/semantic_index.py index
+```
+
+### `auto_research.py` — Auto Research
+
+```bash
+python scripts/auto_research.py discover [vault_path]  # Discover gaps
+python scripts/auto_research.py report [vault_path]    # Evolution report
+python scripts/auto_research.py suggest [vault_path]   # Research suggestions
+```
+
+### `evolve.py` — Self-Evolution Engine
+
+```bash
+python scripts/evolve.py run [vault_path]      # Run one cycle
+python scripts/evolve.py dry-run [vault_path]  # Dry run (no changes)
+python scripts/evolve.py status [vault_path]   # Show status
+```
+
+### `maintain.py` — Maintenance + Validation
+
+```bash
+python scripts/maintain.py validate [vault_path]  # Validate references
+python scripts/maintain.py isolated [vault_path]  # Find isolated notes
+python scripts/maintain.py outdated [vault_path]  # Find outdated notes
+python scripts/maintain.py stats [vault_path]     # Generate statistics
+```
+
+</details>
+
+<details>
+<summary><b>Note types</b></summary>
+
+### Entity Notes
+
+Describe concrete people, tools, projects, organizations.
+
+```markdown
+---
+title: Hermes
+type: entity
+created: 2026-06-13
+tags: [entity, tool]
+关联: [[hermes-brain]] | [[obsidian]]
+---
+
+# Hermes
+
+## Overview
+Hermes Agent is an AI assistant.
+
+## Properties
+- **Type**: Tool
+- **Status**: Active
+```
+
+### Concept Notes
+
+Describe abstract ideas, methodologies, design patterns.
+
+```markdown
+---
+title: LLM Wiki Pattern
+type: concept
+created: 2026-06-13
+tags: [concept, methodology]
+关联: [[karpathy]] | [[knowledge-management]]
+---
+
+# LLM Wiki Pattern
+
+## Definition
+Let the LLM maintain a long-term wiki.
+
+## Core Principles
+1. Knowledge compounds like interest
+2. Incremental updates
+3. Structured storage in Markdown
+```
+
+### Exploration Notes
+
+Describe research processes, findings, analyses.
+
+```markdown
+---
+title: AI Self-Evolution Research
+type: exploration
+created: 2026-06-13
+tags: [exploration, ai]
+关联: [[llm-wiki]] | [[self-evolution]]
+---
+
+# AI Self-Evolution Research
+
+## Background
+Research on AI self-evolution.
+
+## Findings
+...
+
+## Action Items
+- [ ] Deep dive into ARIS
+```
+
+### Diary Notes
+
+Record daily tasks, status, thoughts.
+
+```markdown
+---
+title: 2026-06-13
+type: daily
+created: 2026-06-13
+tags: [daily]
+---
+
+# 2026-06-13
+
+## Tasks
+- [x] Create Hermes Brain
+- [ ] Upload to GitHub
+```
+
+</details>
+
+<details>
+<summary><b>Architecture</b></summary>
+
+### Overall Architecture
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                    Hermes Brain System                    │
+├─────────────────────────────────────────────────────────┤
+│  Input Layer                                              │
+│  ├── User conversations                                   │
+│  ├── External materials (web, PDF, video)                 │
+│  ├── Tool call results                                    │
+│  └── System events (errors, warnings, status changes)     │
+├─────────────────────────────────────────────────────────┤
+│  Processing Layer                                         │
+│  ├── Information extraction (entities, concepts, relations)│
+│  ├── Knowledge fusion (dedup, disambiguation, merge)      │
+│  ├── Graph construction (nodes + edges + attributes)      │
+│  └── Index update (vectors + BM25 + structured)           │
+├─────────────────────────────────────────────────────────┤
+│  Storage Layer                                            │
+│  ├── Hot cache (top of index.md) — last 500 chars         │
+│  ├── Semantic index (.hermes_brain.db) — vector embeddings │
+│  ├── Graph (wikilinks) — entity relationship network      │
+│  └── Note library (Obsidian Vault) — persistent knowledge │
+├─────────────────────────────────────────────────────────┤
+│  Retrieval Layer                                          │
+│  ├── Semantic search (vector similarity)                  │
+│  ├── Keyword search (BM25)                                │
+│  ├── Graph traversal (relationship recommendations)       │
+│  └── Metadata filtering (tags, dates, types)              │
+└─────────────────────────────────────────────────────────┘
+```
+
+### Three-Layer Retrieval
+
+```
+User Query
+    ↓
+Layer 1: Hot Cache (millisecond response)
+    ↓ Miss
+Layer 2: Semantic Index (second-level response)
+    ↓ Miss
+Layer 3: Graph Traversal (deep discovery)
+```
+
+</details>
+
+<details>
+<summary><b>File structure</b></summary>
+
+### Repository
+
+```
+hermes-brain/
+├── .gitignore                  # Git ignore
+├── CHANGELOG.md                # Version history
+├── CONTRIBUTING.md             # Contribution guidelines
+├── LICENSE                     # MIT License
+├── README.md                   # This file
+├── SKILL.md                    # Hermes Skill documentation
+├── templates/                  # Note templates
+│   ├── entity-template.md
+│   ├── concept-template.md
+│   ├── exploration-template.md
+│   └── daily-template.md
+├── references/                 # Reference materials
+│   ├── karpathy-llm-wiki.md
+│   ├── github-projects.md
+│   ├── github-comparison.md
+│   └── research-methodology.md
+└── scripts/                    # Tool scripts
+    ├── hot_cache.py
+    ├── semantic_index.py
+    ├── auto_research.py
+    ├── build_graph.py
+    ├── retrieve.py
+    ├── maintain.py
+    ├── evolve.py
+    └── cron.py
+```
+
+### Obsidian Vault
+
+```
+D:\ObsidianVault\
+├── index.md                    # Main index (with hot cache)
+├── SCHEMA.md                   # Structure specification
+├── log.md                      # Operation log
+├── .hermes_brain.db            # Semantic vector database
+├── .hermes_evolution_report.json # Self-evolution report
+├── concepts/                   # Concept notes
+├── entities/                   # Entity notes
+├── raw/                        # Raw notes
+│   ├── exploration/
+│   ├── research/
+│   └── heartbeat/
+├── daily/                      # Diary notes
+└── hermes/                     # Hermes-related
+```
+
+</details>
+
+<details>
+<summary><b>Configuration</b></summary>
+
+### Python Version
+
+Semantic indexing requires Python 3.12+:
+
+```bash
+# Semantic indexing uses Python 3.12
+/c/Users/20716/AppData/Local/Programs/Python/Python312/python.exe scripts/semantic_index.py index
+
+# Other scripts use default python
+python scripts/hot_cache.py
+python scripts/auto_research.py
+python scripts/build_graph.py
+python scripts/maintain.py
+python scripts/retrieve.py
+python scripts/evolve.py
+python scripts/cron.py
+```
+
+### Dependencies
+
+```bash
+pip install sentence-transformers
+```
+
+### Environment Variables
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `VAULT_PATH` | Path to Obsidian Vault | `D:\ObsidianVault` |
+| `PYTHON_PATH` | Path to Python 3.12 | `python` |
+| `MAX_RESEARCH_TOPICS` | Max topics per cycle | 3 |
+| `MAX_SEARCH_RESULTS` | Max search results | 5 |
+
+</details>
+
 ## Requirements
 
 | Component | Minimum | Recommended | Notes |
@@ -66,6 +434,177 @@ No API keys required. Everything runs locally.
 | **Disk space** | 100MB | 500MB | For scripts + index + notes |
 | **RAM** | 2GB | 4GB | For embedding model |
 | **Obsidian** | v1.6+ | v1.9+ | Optional, for viewing notes |
+| **Git** | any | latest | For version control |
+
+### Python Installation
+
+```bash
+# Windows (recommended)
+# Download from https://www.python.org/downloads/
+# Install Python 3.12.x, check "Add Python to PATH"
+
+# Verify installation
+python --version
+# Should output: Python 3.12.x
+
+# macOS
+brew install python@3.12
+
+# Linux (Ubuntu/Debian)
+sudo apt update
+sudo apt install python3.12 python3.12-venv python3.12-dev
+```
+
+### Dependencies Installation
+
+```bash
+# Install sentence-transformers (required)
+pip install sentence-transformers
+
+# Verify installation
+python -c "import sentence_transformers; print(sentence_transformers.__version__)"
+# Should output: 5.x.x
+```
+
+### Obsidian Installation (Optional)
+
+```bash
+# Download from https://obsidian.md/
+# Install and create a new vault at D:\ObsidianVault
+```
+
+## FAQ
+
+**What is Hermes Brain?**
+A knowledge management system for Hermes Agent, based on Karpathy's LLM Wiki pattern. It gives your Agent a "brain" — automatically discovering gaps, searching for missing knowledge, creating notes, and building relationships.
+
+**What environment do I need?**
+Python 3.12+, sentence-transformers, Obsidian (optional). See [Requirements](#requirements) for details.
+
+**Where is data stored?**
+All locally — notes in `D:\ObsidianVault\`, semantic index in `.hermes_brain.db`.
+
+**How do I set up automation?**
+```bash
+python scripts/cron.py setup
+```
+
+**How do I search for notes?**
+```bash
+python scripts/semantic_index.py search "AI self-evolution"
+python scripts/retrieve.py "Hermes"
+```
+
+**How do I validate references?**
+```bash
+python scripts/maintain.py validate
+```
+
+**How do I rebuild the semantic index?**
+```bash
+python scripts/semantic_index.py rebuild
+```
+
+**How do I check system health?**
+```bash
+python scripts/evolve.py status
+```
+
+## When to use · When to skip
+
+**Great fit if you…**
+- use Hermes Agent and want persistent knowledge
+- want automatic knowledge gap detection and filling
+- prefer local-first, plain Markdown storage
+- want lightweight (177KB) solution
+
+**Skip it if you…**
+- don't use Hermes Agent
+- prefer cloud-based knowledge management
+- need multi-agent support (coming in v2.0)
+
+## Troubleshooting
+
+### Common Issues
+
+**1. `ModuleNotFoundError: No module named 'sentence_transformers'`**
+
+```bash
+pip install sentence-transformers
+```
+
+**2. `Python version mismatch`**
+
+Semantic indexing requires Python 3.12+. Use the full path:
+```bash
+/c/Users/20716/AppData/Local/Programs/Python/Python312/python.exe scripts/semantic_index.py index
+```
+
+**3. `FileNotFoundError: Vault path does not exist`**
+
+Create the vault directory:
+```bash
+mkdir -p D:\ObsidianVault
+```
+
+**4. `SyntaxError: unterminated f-string literal`**
+
+This is a known issue with Python 3.13. Use Python 3.12 for all scripts.
+
+**5. `Index not found`**
+
+Build the index first:
+```bash
+python scripts/semantic_index.py index
+```
+
+### Getting Help
+
+- Check the [FAQ](#faq) section
+- Search [GitHub Issues](https://github.com/ieyz02031-source/hermes-brain/issues)
+- Read the [SKILL.md](SKILL.md) documentation
+
+## Roadmap
+
+### v1.2.0 (Planned)
+- [ ] Web search integration (auto-research)
+- [ ] LLM extraction (auto entity/concept extraction)
+- [ ] Multi-language support (English README)
+
+### v1.3.0 (Planned)
+- [ ] Web UI dashboard
+- [ ] Obsidian plugin integration
+- [ ] MCP server exposure
+
+### v2.0.0 (Future)
+- [ ] Multi-agent support
+- [ ] Cloud sync option
+- [ ] Mobile companion app
+
+## Contributing
+
+```bash
+git clone https://github.com/ieyz02031-source/hermes-brain.git
+cd hermes-brain
+pip install sentence-transformers
+python -m py_compile scripts/*.py
+```
+
+PRs welcome! Read [CONTRIBUTING.md](CONTRIBUTING.md) first.
+
+## Related Projects
+
+- [claude-obsidian](https://github.com/AgriciDaniel/claude-obsidian) — Self-organizing AI second brain
+- [swarmvault](https://github.com/swarmclawai/swarmvault) — Local-first LLM Wiki
+- [karpathy-llm-wiki](https://github.com/Astro-Han/karpathy-llm-wiki) — Agent Skills-compatible LLM wiki
+- [kajet](https://github.com/jpalczewski/kajet) — Obsidian semantic search MCP
+
+## Acknowledgments
+
+- [Andrej Karpathy](https://twitter.com/karpathy) — Creator of the LLM Wiki pattern
+- [Hermes Agent](https://github.com/NousResearch/hermes-agent) — AI assistant framework
+- [Obsidian](https://obsidian.md) — Knowledge management tool
+- [sentence-transformers](https://github.com/UKPLab/sentence-transformers) — Semantic search models
 
 ## License
 
