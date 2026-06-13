@@ -39,7 +39,7 @@ def setup_cron():
     cron_script = SCRIPT_DIR / "cron_task.sh"
     cron_script.write_text(f"""#!/bin/bash
 # Hermes 大脑系统 - 自动自进化任务
-# 运行时间: 每天晚上 9:00
+# 运行时间: 每天晚上 9:00 或空闲时
 
 cd {SCRIPT_DIR.parent}
 python scripts/evolve.py run >> {LOG_DIR}/evolution.log 2>&1
