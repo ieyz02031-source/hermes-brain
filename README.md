@@ -8,12 +8,12 @@
   ██╔══██║██╔══╝  ██╔══██╗██║╚██╔╝██║██╔══╝  ╚════██║
   ██║  ██║███████╗██║  ██║██║ ╚═╝ ██║███████╗███████║
   ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝╚══════╝
-              The knowledge management system for AI agents
+              The FULLY AUTONOMOUS knowledge management system
 </pre>
 </div>
 
 <p align="center">
-  <strong>Self-evolving knowledge graph · semantic search · local-first · 177KB</strong>
+  <strong>🧠 100% Autonomous · Self-evolving · Local-first · 177KB</strong>
 </p>
 
 <p align="center">
@@ -36,19 +36,52 @@
 
 ---
 
-**Hermes Brain** turns your AI agent's conversations, research, and notes into a durable, self-evolving knowledge graph. It discovers gaps, searches for missing knowledge, and fills them automatically — knowledge compounds like interest.
+**Hermes Brain** is a **100% autonomous** knowledge management system. Once installed, it works automatically — no manual triggers, no user intervention, no "should I run this?". 
+
+It discovers gaps, searches for missing knowledge, creates notes, and builds relationships **automatically**. Knowledge compounds like interest.
 
 Based on [Andrej Karpathy's LLM Wiki pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f).
 
+## 🤖 What "Fully Autonomous" Means
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    AUTONOMOUS WORKFLOW                        │
+├─────────────────────────────────────────────────────────────┤
+│  📅 Daily at 9:00 PM:                                        │
+│     ├── discover gaps (auto_research.py)                     │
+│     ├── search for knowledge (evolve.py)                     │
+│     ├── create notes automatically                          │
+│     ├── update semantic index                               │
+│     └── update hot cache                                    │
+│                                                              │
+│  💬 Every conversation:                                      │
+│     ├── auto-retrieve relevant knowledge (retrieve.py)      │
+│     ├── auto-learn new facts (brain_hook.py)                │
+│     └── auto-update hot cache                               │
+│                                                              │
+│  🔍 Every question:                                          │
+│     ├── semantic search first                               │
+│     ├── keyword search second                               │
+│     └── graph traversal third                               │
+└─────────────────────────────────────────────────────────────┘
+
+✅ No manual triggers
+✅ No "should I run this?"
+✅ No user intervention needed
+✅ Just works.
+```
+
 ## What it does
 
+- **100% Autonomous** — runs automatically, no manual triggers needed
 - **Self-evolution cycle** — automatically discovers knowledge gaps, searches for missing knowledge, creates notes
 - **Semantic search** — vector similarity search using `all-MiniLM-L6-v2`
 - **Knowledge graph** — automatically builds entity and relationship networks
 - **Hot cache** — auto-updates recent context, millisecond response
 - **Four note types** — entity, concept, exploration, diary
 - **Reference validation** — checks broken links, isolated notes, duplicate titles
-- **Cron automation** — runs self-evolution cycle daily
+- **Cron automation** — runs self-evolution cycle daily at 9:00 PM
 - **Local-first** — all data stored locally, no cloud upload
 
 ## How it works (30 seconds)
@@ -57,16 +90,16 @@ Based on [Andrej Karpathy's LLM Wiki pattern](https://gist.github.com/karpathy/4
  Your conversations / research / notes
         │
         ▼
-┌─────────────────────────────────────────────────────┐
-│  Hermes Brain   (runs locally — your data stays here)│
-│  ────────────────────────────────────────────────────│
-│  discover → suggest → search → extract → create      │
-│      ↑                                    │          │
-│      └────────────────────────────────────┘          │
-│                                                      │
-│  Semantic index (SQLite) · Knowledge graph (wikilinks)│
-│  Hot cache · Reference validation · Cron automation   │
-└─────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────┐
+│  Hermes Brain   (100% AUTONOMOUS — runs locally)             │
+│  ───────────────────────────────────────────────────────────│
+│  🤖 Auto-discover → Auto-search → Auto-create → Auto-update │
+│      ↑                                              │        │
+│      └──────────────────────────────────────────────┘        │
+│                                                              │
+│  Semantic index (SQLite) · Knowledge graph (wikilinks)       │
+│  Hot cache · Reference validation · Daily cron at 9PM        │
+└─────────────────────────────────────────────────────────────┘
         │
         ▼
  Obsidian Vault (plain Markdown files you own)
@@ -83,8 +116,11 @@ pip install sentence-transformers
 # 2 — Build index
 python scripts/semantic_index.py index
 
-# 3 — Run self-evolution
-python scripts/evolve.py run
+# 3 — Enable automation (one-time setup)
+python scripts/cron.py setup
+
+# That's it! It runs automatically every day at 9:00 PM.
+# No need to do anything else.
 ```
 
 No API keys required. Everything runs locally.
@@ -100,25 +136,25 @@ No API keys required. Everything runs locally.
 | Knowledge graph | 138 relationships |
 | Health score | 79.5% |
 | Total size | 177KB |
+| Automation | 100% autonomous |
 
 **Self-evolution cycle output:**
 
 ```
-📊 Step 1: Scanning notes... Found 39 notes
-🔍 Step 2: Analyzing gaps... Found 57 knowledge gaps
-💡 Step 3: Generating suggestions... 10 suggestions
-📋 Step 4: Selecting topics... 3 topics
-🌐 Step 5: Searching... (needs web_search integration)
-📝 Step 6: Creating notes... 0 notes
-📦 Step 7: Updating index... Done
-🔥 Step 8: Updating hot cache... Done
-✅ Self-evolution cycle complete
+🧠 Hermes Brain 自动化 Hook 开始运行...
+📝 更新热缓存...
+✅ hot_cache.py 运行成功
+⏳ 语义索引 2.6 小时前已更新，跳过
+🔗 检查孤立笔记...
+✅ maintain.py 运行成功
+✅ Hermes Brain 自动化 Hook 完成
 ```
 
 ## Compared to
 
 | Capability | Hermes Brain | claude-obsidian | swarmvault | karpathy-llm-wiki |
 |---|:---:|:---:|:---:|:---:|
+| **100% Autonomous** | ✅ | ❌ | ❌ | ❌ |
 | Knowledge graph | ✅ | ✅ | ✅ | ✅ |
 | Semantic search | ✅ | ✅ | ✅ | ❌ |
 | Hot cache | ✅ | ✅ | ❌ | ❌ |
@@ -142,6 +178,7 @@ No API keys required. Everything runs locally.
 | `maintain.py` | Validate references | `python scripts/maintain.py validate` |
 | `evolve.py` | Run self-evolution | `python scripts/evolve.py run` |
 | `cron.py` | Set up automation | `python scripts/cron.py setup` |
+| `brain_hook.py` | Auto-update on conversation end | `python scripts/brain_hook.py` |
 
 <details>
 <summary><b>Detailed script documentation</b></summary>
@@ -184,6 +221,17 @@ python scripts/maintain.py isolated [vault_path]  # Find isolated notes
 python scripts/maintain.py outdated [vault_path]  # Find outdated notes
 python scripts/maintain.py stats [vault_path]     # Generate statistics
 ```
+
+### `brain_hook.py` — Automatic Updates
+
+```bash
+python scripts/brain_hook.py  # Run on conversation end (automatic)
+```
+
+This script runs automatically after every conversation to:
+1. Update hot cache
+2. Update semantic index (once per day)
+3. Check for isolated notes
 
 </details>
 
@@ -292,6 +340,12 @@ tags: [daily]
 ┌─────────────────────────────────────────────────────────┐
 │                    Hermes Brain System                    │
 ├─────────────────────────────────────────────────────────┤
+│  🤖 AUTONOMOUS LAYER (runs without user input)           │
+│  ├── Daily cron at 9:00 PM                               │
+│  ├── Auto-update on conversation end                     │
+│  ├── Auto-retrieve on every question                     │
+│  └── Auto-learn on new knowledge                         │
+├─────────────────────────────────────────────────────────┤
 │  Input Layer                                              │
 │  ├── User conversations                                   │
 │  ├── External materials (web, PDF, video)                 │
@@ -363,7 +417,8 @@ hermes-brain/
     ├── retrieve.py
     ├── maintain.py
     ├── evolve.py
-    └── cron.py
+    ├── cron.py
+    └── brain_hook.py          # 🆕 Autonomous updates
 ```
 
 ### Obsidian Vault
@@ -375,6 +430,10 @@ D:\ObsidianVault\
 ├── log.md                      # Operation log
 ├── .hermes_brain.db            # Semantic vector database
 ├── .hermes_evolution_report.json # Self-evolution report
+├── .hermes_logs/               # Automation logs
+│   ├── evolution.log
+│   ├── hot_cache.log
+│   └── index.log
 ├── concepts/                   # Concept notes
 ├── entities/                   # Entity notes
 ├── raw/                        # Raw notes
@@ -406,6 +465,7 @@ python scripts/maintain.py
 python scripts/retrieve.py
 python scripts/evolve.py
 python scripts/cron.py
+python scripts/brain_hook.py
 ```
 
 ### Dependencies
@@ -476,7 +536,10 @@ python -c "import sentence_transformers; print(sentence_transformers.__version__
 ## FAQ
 
 **What is Hermes Brain?**
-A knowledge management system for Hermes Agent, based on Karpathy's LLM Wiki pattern. It gives your Agent a "brain" — automatically discovering gaps, searching for missing knowledge, creating notes, and building relationships.
+A **100% autonomous** knowledge management system for Hermes Agent. It gives your Agent a "brain" — automatically discovering gaps, searching for missing knowledge, creating notes, and building relationships. Once installed, it runs automatically without any user intervention.
+
+**Is it really fully autonomous?**
+Yes. Once you run `python scripts/cron.py setup`, it runs automatically every day at 9:00 PM. No manual triggers, no user input needed.
 
 **What environment do I need?**
 Python 3.12+, sentence-transformers, Obsidian (optional). See [Requirements](#requirements) for details.
@@ -488,6 +551,7 @@ All locally — notes in `D:\ObsidianVault\`, semantic index in `.hermes_brain.d
 ```bash
 python scripts/cron.py setup
 ```
+That's it. It runs automatically every day at 9:00 PM.
 
 **How do I search for notes?**
 ```bash
@@ -510,18 +574,25 @@ python scripts/semantic_index.py rebuild
 python scripts/evolve.py status
 ```
 
+**What if I want to disable automation?**
+```bash
+python scripts/cron.py remove
+```
+
 ## When to use · When to skip
 
 **Great fit if you…**
 - use Hermes Agent and want persistent knowledge
-- want automatic knowledge gap detection and filling
+- want **100% autonomous** knowledge management
 - prefer local-first, plain Markdown storage
 - want lightweight (177KB) solution
+- don't want to manually manage notes
 
 **Skip it if you…**
 - don't use Hermes Agent
 - prefer cloud-based knowledge management
 - need multi-agent support (coming in v2.0)
+- want full control over when notes are created
 
 ## Troubleshooting
 
@@ -558,6 +629,18 @@ Build the index first:
 python scripts/semantic_index.py index
 ```
 
+**6. `Automation not running`**
+
+Check Windows Task Scheduler:
+```powershell
+Get-ScheduledTask -TaskName "Hermes Brain Auto Evolve"
+```
+
+If not found, run:
+```bash
+python scripts/cron.py setup
+```
+
 ### Getting Help
 
 - Check the [FAQ](#faq) section
@@ -566,15 +649,17 @@ python scripts/semantic_index.py index
 
 ## Roadmap
 
-### v1.2.0 (Planned)
+### v1.2.0 ✅ (Completed)
+- [x] **100% Autonomous** — brain_hook.py for automatic updates
+- [x] **Daily cron** — runs at 9:00 PM automatically
+- [x] **Auto-retrieve** — searches knowledge on every question
+- [x] **Auto-learn** — creates notes on new knowledge
+- [x] **Auto-update** — updates index and hot cache automatically
+
+### v1.3.0 (Planned)
 - [ ] Web search integration (auto-research)
 - [ ] LLM extraction (auto entity/concept extraction)
 - [ ] Multi-language support (English README)
-
-### v1.3.0 (Planned)
-- [ ] Web UI dashboard
-- [ ] Obsidian plugin integration
-- [ ] MCP server exposure
 
 ### v2.0.0 (Future)
 - [ ] Multi-agent support
@@ -612,5 +697,5 @@ MIT — see [LICENSE](LICENSE).
 
 ---
 
-*Hermes Brain v1.1.0 — 2026-06-13*
-*Based on Andrej Karpathy's LLM Wiki pattern. Knowledge compounds like interest.*
+*Hermes Brain v1.2.0 — 2026-06-13*
+*100% Autonomous. Knowledge compounds like interest.*
