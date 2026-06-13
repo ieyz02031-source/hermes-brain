@@ -1,6 +1,6 @@
 #!/bin/bash
 # Hermes 大脑系统 - 自动自进化任务
-# 运行时间: 每天早上 9:00
+# 运行时间: 每天晚上 9:00 或空闲时
 
 cd D:\Hermes\skills\hermes-brain
 python scripts/evolve.py run >> D:\ObsidianVault\.hermes_logs/evolution.log 2>&1
